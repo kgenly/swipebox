@@ -52,7 +52,16 @@
 						</div>\
 						<a id="swipebox-close"></a>\
 					</div>\
-			</div>';
+					<div id="swipebox-dialog">\
+				<div id="swipebox-dialog-wrapper">\
+					<span id="swipebox-dialog-message">This image has been tagged as containing mature content. Do you want to display it?</span>\
+					<div id="swipebox-dialog-actions">\
+						<a id="swipebox-dialog-no">No</a>\
+						<a id="swipebox-dialog-yes">Yes</a>\
+					</div>\
+				</div>\
+			</div>\
+		</div>';
 
 		plugin.settings = {};
 
@@ -152,6 +161,7 @@
 				this.target.trigger( 'swipebox-start' );
 				$.swipebox.isOpen = true;
 				this.build();
+				this.checkMatureDialog( index );
 				this.openSlide( index );
 				this.openMedia( index );
 				this.preloadMedia( index+1 );
@@ -756,7 +766,7 @@
 				if ( a.search ) {
 					qs = JSON.parse( '{"' + a.search.toLowerCase().replace('?','').replace(/&/g,'","').replace(/=/g,'":"') + '"}' );
 				}
-				
+
 				// Extend with custom data
 				if ( $.isPlainObject( customData ) ) {
 					qs = $.extend( qs, customData, plugin.settings.queryStringData ); // The dev has always the final word
@@ -848,6 +858,7 @@
 					src = $( '#swipebox-slider .slide' ).eq( index ).contents().find( 'iframe' ).attr( 'src' );
 					$( '#swipebox-slider .slide' ).eq( index ).contents().find( 'iframe' ).attr( 'src', src );
 					index++;
+					$this.checkMatureDialog( index );
 					$this.setSlide( index );
 					$this.preloadMedia( index+1 );
 					if ( plugin.settings.nextSlide ) {
@@ -859,6 +870,7 @@
 						src = $( '#swipebox-slider .slide' ).eq( index ).contents().find( 'iframe' ).attr( 'src' );
 						$( '#swipebox-slider .slide' ).eq( index ).contents().find( 'iframe' ).attr( 'src', src );
 						index = 0;
+						$this.checkMatureDialog( index );
 						$this.preloadMedia( index );
 						$this.setSlide( index );
 						$this.preloadMedia( index + 1 );
@@ -884,6 +896,7 @@
 					src = $( '#swipebox-slider .slide' ).eq( index ).contents().find( 'iframe').attr( 'src' );
 					$( '#swipebox-slider .slide' ).eq( index ).contents().find( 'iframe' ).attr( 'src', src );
 					index--;
+					$this.checkMatureDialog( index );
 					this.setSlide( index );
 					this.preloadMedia( index-1 );
 					if ( plugin.settings.prevSlide ) {
@@ -940,6 +953,50 @@
 					plugin.settings.afterClose();
 				}
 			}
+		},
+		/**
+			 * Checks if mature content dialog should be displayed or not and displayes dialog.
+			 * @since 1.4.4.1
+			 *
+			 * @oaram int index Element/slide index.
+			 */
+			checkMatureDialog: function( index ) {
+				if ( elements[ index ].mature === true ) {
+					$dialog.show();
+				} else if ( $dialog.is(":visible") ) {
+					setTimeout(this.dismissDialog, 200);
+				}
+			},
+			/**
+			 * Handles dialog continue event.
+			 * @since 1.4.4.1
+			 *
+			 * @param object e Event.
+			 */
+			onDialogContinue: function( e ) {
+				e.preventDefault();
+				$dialog.hide();
+			},
+			/**
+			 * Handles dialog continue event.
+			 * @since 1.4.4.1
+			 *
+			 * @param object e Event.
+			 */
+			onDialogCancel: function( e ) {
+				e.preventDefault();
+				var index = $( '#swipebox-slider .slide' ).index( $( '#swipebox-slider .slide.current' ) );
+				// Go to next slide if possible
+				if ( index + 1 < elements.length ) {
+					return $.swipebox.extend().getNext();
+				} else if ( index - 1 >= 0 ) {
+					return $.swipebox.extend().getPrev();
+				}
+			},
+			dismissDialog: function()
+			{
+				$dialog.hide();
+			},
 		};
 
 		plugin.init();

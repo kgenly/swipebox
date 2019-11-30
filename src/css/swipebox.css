@@ -274,7 +274,7 @@ html.swipebox-html.swipebox-touch {
     max-width: 800px;
   }
 }
-/* Skin 
+/* Skin
 --------------------------*/
 #swipebox-overlay {
   background: #0d0d0d;
@@ -293,3 +293,54 @@ html.swipebox-html.swipebox-touch {
   line-height: 43px;
   font-family: Helvetica, Arial, sans-serif;
 }
+
+
+
+#swipebox-dialog {
+  background-color: rgba(0, 0, 0, 0.98);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center; }
+  #swipebox-dialog #swipebox-dialog-wrapper {
+    background-color: #FFF;
+    padding: 30px;
+    margin: 20px;
+    border: 0 none;
+    border-radius: 4px; }
+    #swipebox-dialog #swipebox-dialog-wrapper #swipebox-dialog-message {
+      margin-bottom: 20px;
+      display: block; }
+    #swipebox-dialog #swipebox-dialog-wrapper #swipebox-dialog-actions {
+      overflow: hidden;
+      position: relative; }
+      #swipebox-dialog #swipebox-dialog-wrapper #swipebox-dialog-actions a#swipebox-dialog-no,
+      #swipebox-dialog #swipebox-dialog-wrapper #swipebox-dialog-actions a#swipebox-dialog-yes {
+        display: block;
+        padding: 10px 15px;
+        min-width: 75px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer; }
+      #swipebox-dialog #swipebox-dialog-wrapper #swipebox-dialog-actions a#swipebox-dialog-no {
+        float: left;
+        background-color: #F44336;
+        color: #FFF; }
+        #swipebox-dialog #swipebox-dialog-wrapper #swipebox-dialog-actions a#swipebox-dialog-no:hover {
+          background-color: #D32F2F; }
+        #swipebox-dialog #swipebox-dialog-wrapper #swipebox-dialog-actions a#swipebox-dialog-no:active {
+          background-color: #EF9A9A; }
+      #swipebox-dialog #swipebox-dialog-wrapper #swipebox-dialog-actions a#swipebox-dialog-yes {
+        float: right;
+        background-color: #4CAF50;
+        color: #FFF; }
+        #swipebox-dialog #swipebox-dialog-wrapper #swipebox-dialog-actions a#swipebox-dialog-yes:hover {
+          background-color: #388E3C; }
+        #swipebox-dialog #swipebox-dialog-wrapper #swipebox-dialog-actions a#swipebox-dialog-yes:active {
+          background-color: #A5D6A7; }
